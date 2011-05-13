@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+
+
+	<display-name>mongodb-guice-stripes-predemo</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+
+	<!-- Guice -->
+
+	<listener>
+		<listener-class>com.silvermindsoftware.stripes.integration.guice.GuiceContextListener</listener-class>
+	</listener>
+	<context-param>
+		<param-name>Guice.Modules</param-name>
+		<param-value>may122011.data.DataModule, may122011.web.WebModule</param-value>
+	</context-param>
+
+
+
+	<!-- Stripes -->
+	<filter>
+		<display-name>Stripes Filter</display-name>
+		<filter-name>StripesFilter</filter-name>
+		<filter-class>net.sourceforge.stripes.controller.StripesFilter</filter-class>
+		<init-param>
+			<param-name>ActionResolver.Packages</param-name>
+			<param-value>may122011.web</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>Configuration.Class</param-name>
+			<param-value>com.silvermindsoftware.stripes.config.GuiceRuntimeConfiguration</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>ActionBeanContextFactory.Class</param-name>
+			<param-value>com.silvermindsoftware.stripes.controller.GuiceActionBeanContextFactory</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>ActionResolver.Class</param-name>
+			<param-value>com.silvermindsoftware.stripes.controller.GuiceActionResolver</param-value>
+		</init-param>
+<!-- 		<init-param> -->
+<!-- 			<param-name>MultipartWrapper.Class</param-name> -->
+<!-- 			<param-value>net.sourceforge.stripes.controller.multipart.CommonsMultipartWrapper</param-value> -->
+<!-- 		</init-param> -->
+	</filter>
+
+	<filter-mapping>
+		<filter-name>StripesFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>StripesFilter</filter-name>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<servlet-class>net.sourceforge.stripes.controller.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<url-pattern>*.action</url-pattern>
+	</servlet-mapping>
+</web-app>
